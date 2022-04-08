@@ -9,7 +9,9 @@ void ArrayArray_Destroy(size_t n,Array *a) {
     }    
   }
 
-  Array_Destroy(a);
+  for(size_t i=0;i<a->length;i++) {
+    a->destroy(a->data[i]);
+  }
 
 }
 

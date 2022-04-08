@@ -26,11 +26,8 @@ void Array_Append(Array *array,void *value);
 void Array_Prepend(Array *array,void *value);
 void Array_Remove(Array *array,size_t index);
 void Array_Print(Array *array);
-
-void IntDataDestroy(void *data);
-void IntDataPrint(void *data);
-int *WrapInt(int x);
-int UnwrapInt(void *x);
+void ArrayDataDestroy(void *array);
+void ArrayDataPrint(void *array);
 
 #ifdef ARRAY_IMPLEMENTATION
 
@@ -55,12 +52,12 @@ void Array_Destroy(Array *array) {
 }
 
 void Array_Set(Array *array,size_t index,void *value) {
-  assert(index<array->length);
+  assert(index < array->length);
   array->data[index]=value;
 }
 
 void *Array_Get(Array *array,size_t index) {
-  assert(index<array->length);
+  assert(index < array->length);
   return array->data[index];
 }
 
@@ -85,7 +82,7 @@ void Array_Prepend(Array *array,void *value) {
 }
 
 void Array_Remove(Array *array,size_t index) {
-  assert(index<array->length);
+  assert(index < array->length);
   for(size_t i=index;i<array->length-1;i++) {
     array->data[i]=array->data[i+1];
   }
@@ -99,23 +96,16 @@ void Array_Print(Array *array) {
   printf("\n");
 }
 
-void IntDataDestroy(void *data) {
-  free(data);
-  data=NULL;
+void ArrayDataDestroy(void *array) {
+  for(size_t i=0;i<((Array*)array)->length;i++) {
+    Array_Destroy(((Array*)array)->data[i]);
+  }
 }
 
-void IntDataPrint(void *data) {
-  printf("%d ",*(int*)data);
-}
-
-int *WrapInt(int x) {
-  int *y=malloc(sizeof(*y));
-  *y=x;
-  return y;
-}
-
-int UnwrapInt(void *x) {
-  return *(int*)x;
+void ArrayDataPrint(void *array) {
+  for(size_t i=0;i<((Array*)array)->length;i++) {
+    Array_Print(((Array*)array)->data[i]);
+  }
 }
 
 #endif /* ARRAY_IMPLEMENTATION  */
