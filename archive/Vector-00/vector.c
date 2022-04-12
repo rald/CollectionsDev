@@ -17,16 +17,15 @@ void Vector_Destroy(Vector *vector) {
     vector->destroy(vector->data[i]);
   }
   free(vector->data);
-  free(vector);
+  vector->data=NULL;
 }
 
-void Vector_Set(Vector *vector,size_t index,void *value) {
-  vector->destroy(vector->data[index]);
-  vector->data[index]=value;
+size_t Vector_GetLength(Vector *vector) {
+  return vector->length;
 }
 
-void *Vector_Get(Vector *vector,size_t index) {
-  return vector->data[index];
+void Vector_SetLength(Vector *vector,size_t length) {
+  vector->length=length;
 }
 
 void Vector_Append(Vector *vector,void *value) {
@@ -88,7 +87,6 @@ void Vector_DestroyData(void *vector) {
   for(size_t i=0;i<((Vector*)vector)->length;i++) {
     Vector_Destroy(((Vector*)vector)->data[i]);
   }
-  Vector_Destroy((Vector*)((Vector*)vector)->data);
-  Vector_Destroy((Vector*)vector);
+  free(((Vector*)vector)->data);
+  ((Vector*)vector)->data=NULL;
 }
-

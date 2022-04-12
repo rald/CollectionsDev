@@ -10,11 +10,11 @@ int Int_Unbox(void *x) {
   return *(int*)x;
 }
 
-void Int_PrintData(void *data) {
+void Int_Print(void *data) {
   printf("%d ",Int_Unbox(data));
 }
 
-void Int_DestroyData(void *data) {
+void Int_Destroy(void *data) {
   free(data);
   data=NULL;
 }
@@ -23,25 +23,11 @@ int main(int argc, char **argv) {
 
   size_t n=3;
 
-/*
   Vector *a=Vector_Create(n,Int_Print,Int_Destroy);
   for(size_t i=0;i<n;i++) {
     Vector_Append(a,Int_Box(i));
   }
-
-//*/
-
-  Vector *a=Vector_Create(n,Vector_PrintData,Vector_DestroyData);
-  for(size_t j=0;j<n;j++) {
-    Vector_Append(a,Vector_Create(n,Int_PrintData,Int_DestroyData));
-    for(size_t i=0;i<n;i++) {
-      Vector_Append(Vector_Get(a,j),Int_Box(i+j*n));
-    }
-  }
-
   Vector_Print(a);
-
-  Vector_Destroy(a);
 
   return 0;
 }
