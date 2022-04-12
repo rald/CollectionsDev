@@ -79,16 +79,16 @@ void Vector_Print(Vector *vector) {
 
 void Vector_PrintData(void *vector) {
   for(size_t i=0;i<((Vector*)vector)->length;i++) {
-    Vector_Print(((Vector*)vector)->data[i]);
+    ((Vector*)vector)->print(((Vector*)vector)->data[i]);
   }
   printf("\n");
 }
 
 void Vector_DestroyData(void *vector) {
   for(size_t i=0;i<((Vector*)vector)->length;i++) {
-    Vector_Destroy(((Vector*)vector)->data[i]);
+    ((Vector*)vector)->destroy(((Vector*)vector)->data[i]);
   }
-  Vector_Destroy((Vector*)((Vector*)vector)->data);
-  Vector_Destroy((Vector*)vector);
+  free((Vector*)((Vector*)vector)->data);
+  free((Vector*)vector);
 }
 
